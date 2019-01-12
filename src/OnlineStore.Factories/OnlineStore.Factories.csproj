@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OnlineStore.Common\OnlineStore.Common.csproj" />
+    <ProjectReference Include="..\OnlineStore.DAL\OnlineStore.DAL.csproj" />
+    <ProjectReference Include="..\OnlineStore.Models\OnlineStore.Models.csproj" />
+  </ItemGroup>
+
+</Project>

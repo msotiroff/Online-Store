@@ -1,0 +1,52 @@
+﻿@model OnlineStore.Common.ViewModels.Order.OrderAdminDetailsViewModel
+
+<div>
+    <h4>Order details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTime)
+        </dt>
+        <dd>
+            @Model.DateTime.ToLocalTime()
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerPhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerPhoneNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TotalAmount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.State)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Products)
+        </dt>
+        <dd>
+            @foreach (var productKvp in Model.Products)
+            {
+                <div>
+                    @($"{productKvp.Key}: {productKvp.Value}{Environment.NewLine}")
+                </div>
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-area="admin" asp-controller="order" asp-action="Index" class="btn btn-default">Back to List</a>
+</div>

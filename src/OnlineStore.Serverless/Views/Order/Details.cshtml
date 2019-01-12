@@ -1,0 +1,63 @@
+﻿@model OnlineStore.Common.ViewModels.Order.OrderDetailsViewModel
+
+<div>
+    <h4>Order details</h4>
+    <hr />
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.DateTime)
+            </dt>
+            <dd>
+                @Model.DateTime.ToLocalTime()
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CustomerName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.TotalAmount)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TotalAmount)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.State)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.State)
+            </dd>
+        </dl>
+    </div>
+    <div class="container popover-content">
+        <div class="col-sm-12 col-md-8 col-lg-6">
+            <div>Products</div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.Products)
+                    {
+                        <tr>
+                            <td>@product.Key.Name</td>
+                            <td>@product.Key.Price</td>
+                            <td>@product.Value</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 col-lg-6"></div>
+    </div>
+    <br />
+    <div>
+        <a asp-area="" asp-controller="order" asp-action="history">Back to List</a>
+    </div>
+</div>

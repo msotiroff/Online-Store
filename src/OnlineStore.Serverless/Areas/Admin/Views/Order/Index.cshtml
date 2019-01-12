@@ -1,0 +1,83 @@
+﻿@model IEnumerable<OnlineStore.Common.ViewModels.Order.OrderAdminIndexViewModel>
+
+<h3 class="text-center">All orders</h3>
+<div>
+    <label>Order by: </label>
+</div>
+<div class="form-inline">
+    <form asp-area="admin" asp-controller="order" asp-action="index" method="get" class="form-inline pull-left">
+        <select name="orderMember" class="form-control" onchange="this.form.submit()">
+            <option value="DateTime" selected="@((string)ViewData["orderMember"] == "DateTime")">Date</option>
+            <option value="CustomerName" selected="@((string)ViewData["orderMember"] == "CustomerName")">Customer Name</option>
+            <option value="CustomerPhoneNumber" selected="@((string)ViewData["orderMember"] == "CustomerPhoneNumber")">Customer Phone Number</option>
+            <option value="TotalPrice" selected="@((string)ViewData["orderMember"] == "TotalPrice")">Total Price</option>
+            <option value="State" selected="@((string)ViewData["orderMember"] == "State")">State</option>
+        </select>
+    </form>
+    <form asp-area="admin" asp-controller="order" asp-action="index" method="get" class="form-inline pull-left  col-lg-offset-1 col-md-offset-1 col-sm-offset-1">
+        <select name="sortDirection" class="form-control" onchange="this.form.submit()">
+            <option value="Ascending" selected="@((string)ViewData["sortDirection"] == "Ascending")">Ascending</option>
+            <option value="Descending" selected="@((string)ViewData["sortDirection"] == "Descending")">Descending</option>
+        </select>
+    </form>
+</div>
+<br />
+<br />
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerPhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.DateTime.ToLocalTime()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerPhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalAmount)
+                </td>
+                <td>
+                    <div class="form-inline">
+                        <form asp-area="admin" asp-controller="order" asp-action="updateState" method="post">
+                            <input type="hidden" name="orderId" value="@item.Id" />
+                            <select name="newState" asp-items="@item.AllStates" class="form-control" onchange="this.form.submit();"></select>
+                        </form>
+                    </div>
+                </td>
+                <td>
+                    <a asp-area="admin" asp-controller="order" asp-action="details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@await Html.PartialAsync(
+    WebConstants.PaginationPartialPath,
+    new PaginationPartialViewModel(
+        (IPaginatedList)Model, this.ViewContext));

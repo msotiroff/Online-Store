@@ -1,0 +1,68 @@
+﻿@model OnlineStore.Common.ViewModels.Product.ProductUpdateViewModel
+
+<h4>Edit "@Model.Name"</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-area="admin" asp-controller="product" asp-action="Update" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Id" hidden="hidden" />
+            <input asp-for="CategoryId" hidden="hidden" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Availability" class="control-label"></label>
+                <input asp-for="Availability" class="form-control" />
+                <span asp-validation-for="Availability" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Add pictures</label>
+                <input type="file" name="pictures" onchange="this.form.Submit()" multiple>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-success" />
+                <a asp-area="admin"
+                   asp-controller="product"
+                   asp-action="details"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-default">Cancel</a>
+            </div>
+        </form>
+    </div>
+    <div class="container col-md-8">
+        <div class="row">
+            @foreach (var picture in Model.Pictures)
+            {
+                <div class="col-md-6 text-center">
+                    <img src="@picture.Url" alt="@Model.Name's picture" height="150" />
+                    <br />
+                    <a asp-area="admin"
+                       asp-controller="product"
+                       asp-action="removepicture"
+                       asp-route-id="@picture.Id"
+                       asp-route-url="@picture.Url"
+                       asp-route-productId="@Model.Id"
+                       onclick="return confirm('Are you sure you want to delete this picture?')">Delete this picture</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

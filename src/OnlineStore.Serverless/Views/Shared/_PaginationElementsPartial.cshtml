@@ -1,0 +1,34 @@
+﻿@model PaginationPartialViewModel
+
+@{
+    var prevDisabled = !Model.PaginatedList.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.PaginatedList.HasNextPage ? "disabled" : "";
+    var firstDisabled = Model.PaginatedList.PageIndex == 1 ? "disabled" : "";
+    var lastDisabled = Model.PaginatedList.TotalPages <= Model.PaginatedList.PageIndex ? "disabled" : "";
+}
+
+<div class="text-center">
+    <a asp-all-route-data="@Model.RouteData"
+       asp-route-searchTerm="@Model.SearchTerm"
+       asp-route-pageIndex="1"
+       class="btn btn-default @firstDisabled"
+       title="First page">&lt;&lt;</a>
+    <a asp-all-route-data="@Model.RouteData"
+       asp-route-searchTerm="@Model.SearchTerm"
+       asp-route-pageIndex="@(Model.PaginatedList.PageIndex - 1)"
+       class="btn btn-default @prevDisabled"
+       title="Previous page">&lt;</a>
+    <span class="btn btn-group">
+        @Model.PaginatedList.PageIndex
+    </span>
+    <a asp-all-route-data="@Model.RouteData"
+       asp-route-searchTerm="@Model.SearchTerm"
+       asp-route-pageIndex="@(Model.PaginatedList.PageIndex + 1)"
+       class="btn btn-default @nextDisabled"
+       title="Next page">&gt;</a>
+    <a asp-all-route-data="@Model.RouteData"
+       asp-route-searchTerm="@Model.SearchTerm"
+       asp-route-pageIndex="@(Model.PaginatedList.TotalPages)"
+       class="btn btn-default @lastDisabled"
+       title="Last page">&gt;&gt;</a>
+</div>

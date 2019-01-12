@@ -1,0 +1,24 @@
+﻿@model IEnumerable<OnlineStore.Common.ViewModels.Category.CategoryIndexViewModel>
+
+<h2 class="text-center">Sale of fishing equipment and consumables.</h2>
+
+<hr />
+<div class="row text-center">
+    @foreach (var category in Model)
+    {
+        <div class="col-md-3 mb-4 m-5">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">@category.Name</h4>
+                </div>
+                <a asp-area=""
+                   asp-controller="category"
+                   asp-action="details"
+                   asp-route-id="@category.Id"
+                   asp-route-pageIndex="1">
+                    <img class="card-img-top align-content-center" height="150" src=@category.PictureUrl alt=@category.Name />
+                </a>
+            </div>
+        </div>
+    }
+</div>

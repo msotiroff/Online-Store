@@ -1,0 +1,88 @@
+﻿@model IEnumerable<UserAdminViewModel>
+
+<div class="form-inline">
+    <form asp-area="admin" asp-controller="user" asp-action="index" method="get">
+        <div class="form-group col-sm-12 col-md-6 col-lg-4">
+            <label>Search users by email</label>
+            <input type="text" name="searchTerm" value="@this.Context.Request.Query["searchTerm"]" class="form-control" />
+            <button type="submit" class="btn btn-success">Search</button>
+        </div>
+    </form>
+</div>
+<table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @if (!item.IsAdmin)
+                    {
+                        <a asp-area="admin"
+                           asp-controller="user"
+                           asp-action="addtoroleadmin"
+                           asp-route-id="@item.Id"
+                           onclick="return confirm('Are you sure you want to make this user an administrator?')"
+                           class="btn btn-primary">Add to role Admin</a>
+                    }
+                    else
+                    {
+                        <button class="btn btn-default" disabled>Add to role Admin</button>
+                    }
+                    @if (item.IsAdmin)
+                    {
+                        <a asp-area="admin"
+                           asp-controller="user"
+                           asp-action="removefromroleadmin"
+                           asp-route-id="@item.Id"
+                           onclick="return confirm('Are you sure you want to remove this user from administrator role?')"
+                           class="btn btn-primary">Remove from role Admin</a>
+                    }
+                    else
+                    {
+                        <button class="btn btn-default" disabled>Remove from role Admin</button>
+                    }
+
+                    <a asp-area="user"
+                       asp-controller="manage"
+                       asp-action="index"
+                       asp-route-id="@item.Id"
+                       class="btn btn-default">Details</a>
+                    <a asp-area="admin"
+                       asp-controller="user"
+                       asp-action="delete"
+                       asp-route-id="@item.Id"
+                       onclick="return confirm('Are you sure you want to delete this user?')"
+                       class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@await Html.PartialAsync(
+        WebConstants.PaginationPartialPath,
+        new PaginationPartialViewModel(
+            (IPaginatedList)Model, this.ViewContext))

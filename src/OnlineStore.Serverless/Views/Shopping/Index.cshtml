@@ -1,0 +1,96 @@
+﻿@model OnlineStore.Common.ViewModels.ShoppingCart.ShoppingCartIndexViewModel
+@inject IOptions<ResourceOptions> resourceOptions
+@inject IOptions<EnvironmentOptions> environmentOptions
+
+<link href="~/css/shoppingCart.css" rel="stylesheet" />
+
+<h2>Your shopping cart</h2>
+<div class="container">
+    <table id="cart" class="table table-hover table-condensed">
+        <thead>
+            <tr>
+                <th style="width:59%">Product</th>
+                <th style="width:10%">Price</th>
+                <th style="width:8%">Quantity</th>
+                <th style="width:8%">Availability</th>
+                <th style="width:15%" class="text-center">Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                var subtotal = item.Count * item.Product.Price;
+
+                <tr>
+                    <td data-th="Product">
+                        <div class="row">
+                            <div class="col-sm-2 hidden-xs">
+                                <img src="@item.Product.MainPictureUrl" alt="@item.Product.Name" class="img-responsive" />
+                            </div>
+                            <div class="col-sm-10">
+                                <a asp-area=""
+                                   asp-controller="product"
+                                   asp-action="details"
+                                   asp-route-id="@item.Product.Id"
+                                   class="text-large">@item.Product.Name</a>
+                                <p>@item.Product.ShortDescription</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-th="Price">@item.Product.Price.ToString("f2") BGN</td>
+                    <td data-th="Quantity">
+                        <div class="form-inline row">
+                            <form asp-area="" asp-controller="shopping" asp-action="subtractfromcart" method="post" class="form-group">
+                                <input name="productId" value="@item.Product.Id" hidden />
+                                <input type="submit" class="btn btn-default btn-sm" value="-" title="Subtract one" />
+                            </form>
+                            <span class="btn btn-default disabled">@item.Count</span>
+                            <form asp-area="" asp-controller="shopping" asp-action="addtocart" method="post" class="form-group">
+                                <input name="productId" value="@item.Product.Id" hidden />
+                                <input name="returnUrl" value="/shopping/index" hidden />
+                                <input type="submit" class="btn btn-default btn-sm" value="+" title="Add one" />
+                            </form>
+                        </div>
+                    </td>
+                    <td data-th="Availability" class="text-center">@item.Product.Availability</td>
+                    <td data-th="Subtotal" class="text-center">@subtotal.ToString("F2")</td>
+                    <td>
+                        <form asp-area="" asp-controller="shopping" asp-action="removefromcart" method="post" class="form-group">
+                            <input name="productId" value="@item.Product.Id" hidden />
+                            <input type="image" src="@resourceOptions.Value.RemoveItemIconUrl" class="img-icon" alt="Remove @item.Product.Name" title="Remove this item" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="visible-xs">
+                <td class="text-center">
+                    <strong>Total: @Model.TotalAmount BGN</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a 
+                       href="@environmentOptions.Value.ApplicationBaseEndpoint" 
+                       class="btn btn-warning"><i class="fa fa-angle-left">
+                            </i> Continue Shopping
+                    </a>
+                </td>
+                <td class="hidden-xs text-center"><strong>Total: @Model.TotalAmount BGN</strong></td>
+                <td>
+                    @{
+                        var disabled = Model.Items.Any() ? "" : "disabled";
+                    }
+                    <a asp-area=""
+                       asp-controller="order"
+                       asp-action="create"
+                       class="btn btn-success @disabled">
+                        Checkout<i class="fa fa-angle-right"></i>
+                    </a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

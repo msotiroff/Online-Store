@@ -1,0 +1,63 @@
+﻿@model OnlineStore.Common.ViewModels.Product.ProductDetailsViewModel
+
+<h2>Product details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Availability)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Availability)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CategoryName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+    <div class="pull-left">
+        <form asp-area="" asp-controller="shopping" asp-action="addtocart" method="post">
+            <input name="productId" value="@Model.Id" hidden />
+            <input name="returnUrl" value="/product/details/@Model.Id" hidden />
+            <input type="submit" class="btn btn-success" value="Add to cart" />
+        </form>
+    </div>
+    <br />
+    <hr />
+    @if (Model.Pictures.Any())
+    {
+    <div class="row">
+        @foreach (var picture in Model.Pictures)
+        {
+            <a href="@picture.Url" target="_blank">
+                <img class="figure-img" height="200" src="@picture.Url" alt="@Model.Name" />
+            </a>
+        }
+        <hr />
+    </div>
+    }
+    <div>
+        <a asp-controller="Home" asp-action="Index">Back to Home page</a>
+    </div>
+</div>

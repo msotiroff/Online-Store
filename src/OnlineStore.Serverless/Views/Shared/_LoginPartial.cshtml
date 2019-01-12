@@ -1,0 +1,67 @@
+@if (this.User.Identity.IsAuthenticated)
+{
+    @if (User.IsInRole(AuthenticationConstants.AdministratorRoleName))
+    {
+        <ul class="nav navbar-nav navbar-left">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin panel<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a asp-area="admin" asp-controller="order" asp-action="index">Orders</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a asp-area="admin" asp-controller="category" asp-action="index">Categories</a></li>
+                    <li><a asp-area="admin" asp-controller="user" asp-action="index">Users</a></li>
+                </ul>
+            </li>
+        </ul>
+    }
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <form asp-area="" asp-controller="Search" asp-action="Results" method="get" class="navbar-form" role="search">
+                <div class="form-group">
+                    <input type="text" name="searchTerm" class="form-control" placeholder="Search products">
+                    <button type="submit" class="btn btn-default">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </div>
+            </form>
+        </li>
+        <li>
+            <a asp-area="" asp-controller="shopping" asp-action="index">Shopping cart</a>
+        </li>
+        <li>
+            <a asp-area="" asp-controller="order" asp-action="history">Orders history</a>
+        </li>
+        <li>
+            <a asp-area="user" asp-controller="manage" asp-action="index" title="Manage">Hello, @this.User.Identity.Name!</a>
+        </li>
+        <li>
+            <form asp-area="user" asp-controller="account" asp-action="signout" method="post" id="logoutForm" class="navbar-right">
+                <button type="submit" class="btn btn-link btn-logout">Logout</button>
+            </form>
+        </li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <form asp-area="" asp-controller="Search" asp-action="Results" method="get" class="navbar-form" role="search">
+                <div class="form-group">
+                    <input type="text" name="searchTerm" class="form-control" placeholder="Search products">
+                    <button type="submit" class="btn btn-default">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </div>
+            </form>
+        </li>
+        <li>
+            <a asp-area="" asp-controller="shopping" asp-action="index">Shopping cart</a>
+        </li>
+        <li>
+            <a asp-area="user" asp-controller="account" asp-action="register">Register</a>
+        </li>
+        <li>
+            <a asp-area="user" asp-controller="account" asp-action="login">Login</a>
+        </li>
+    </ul>
+}

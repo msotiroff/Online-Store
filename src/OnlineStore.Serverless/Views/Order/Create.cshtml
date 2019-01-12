@@ -1,0 +1,118 @@
+﻿@model OnlineStore.Common.ViewModels.Order.OrderCreateViewModel
+
+<h4>Create an order</h4>
+<hr />
+<div class="row">
+    <div class="container">
+        <div class="col-sm-4">
+            <br />
+            <form asp-area="" asp-controller="order" asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="CustomerName" class="control-label"></label>
+                    <input asp-for="CustomerName" class="form-control" />
+                    <span asp-validation-for="CustomerName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CustomerPhoneNumber" class="control-label"></label>
+                    <input asp-for="CustomerPhoneNumber" class="form-control" />
+                    <span asp-validation-for="CustomerPhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DeliveryAddress" class="control-label"></label>
+                    <textarea asp-for="DeliveryAddress" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="DeliveryAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Confirm" class="btn btn-success" />
+                    <a asp-area="" asp-controller="shopping" asp-action="index" class="btn btn-default">Back to shopping cart</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-2 col-md-4 col-lg-8">
+            <table id="cart" class="table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Available</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ShoppingCart.Items)
+                    {
+                        var subtotal = item.Count * item.Product.Price;
+                        var hasEnough = item.Count <= item.Product.Availability;
+
+                        <tr>
+                            <td data-th="Product">
+                                <div class="row">
+                                    <div class="col-sm-2 hidden-xs">
+                                        <img src="@item.Product.MainPictureUrl" alt="@item.Product.Name" class="img-responsive" />
+                                    </div>
+                                    @if (hasEnough)
+                                    {
+                                        <div class="col-sm-10">
+                                            <a asp-area=""
+                                               asp-controller="product"
+                                               asp-action="details"
+                                               asp-route-id="@item.Product.Id"
+                                               class="text-large">@item.Product.Name</a>
+                                            <p>@item.Product.ShortDescription</p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-danger">
+                                            There is not enough
+                                            <a asp-area=""
+                                               asp-controller="product"
+                                               asp-action="details"
+                                               asp-route-id="@item.Product.Id"
+                                               class="text-primary">@item.Product.Name</a>
+                                            in stock. Available: @item.Product.Availability.
+                                            Please, go to your
+                                            <a asp-area=""
+                                               asp-controller="shopping"
+                                               asp-action="index"
+                                               class="text-primary">Shopping cart</a>
+                                            and update the item count!
+                                        </div>
+                                    }
+                                </div>
+                            </td>
+                            <td data-th="Price">@item.Product.Price.ToString("f2")</td>
+                            <td data-th="Quantity">
+                                <div class="text-center">
+                                    <span class="text-center">@item.Count</span>
+                                </div>
+                            </td>
+                            <td data-th="Quantity">
+                                <div class="text-center">
+                                    @{
+                                        var textColorClass = hasEnough ? "" : "text-danger";
+                                    }
+                                    <span class="text-center @textColorClass">
+                                        @item.Product.Availability
+                                    </span>
+                                </div>
+                            </td>
+                            <td data-th="Subtotal" class="text-center">@subtotal.ToString("F2")</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="text-large text-left">Total price: <span class="text-info">@Model.ShoppingCart.TotalAmount</span> BGN</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

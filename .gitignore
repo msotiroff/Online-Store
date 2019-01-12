@@ -328,3 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/src/OnlineStore.Serverless/secrets.json
+/src/OnlineStore.Serverless/aws-lambda-tools-defaults.json

@@ -1,0 +1,41 @@
+﻿@model OnlineStore.Common.ViewModels.Category.CategoryUpdateViewModel
+
+<h3 class="text-center">Update category</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Update" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Id" hidden="hidden" />
+            <input asp-for="PictureUrl" hidden="hidden" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <img src="@Model.PictureUrl" height="150">
+            <br />
+            <label>Update picture</label>
+            <input type="file" name="picture" onchange="this.form.submit()">
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-success" />
+                <a asp-area="admin"
+                   asp-controller="category"
+                   asp-action="RemovePicture"
+                   asp-route-categoryId="@Model.Id"
+                   onclick="return confirm('Are you sure you want to delete this picture?')"
+                   class="btn btn-danger">Delete picture</a>
+                <a asp-area="admin" asp-controller="category" asp-action="Index" class="btn btn-default">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-area="admin" asp-controller="category" asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

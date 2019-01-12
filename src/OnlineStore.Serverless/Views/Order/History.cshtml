@@ -1,0 +1,52 @@
+﻿@model IEnumerable<OnlineStore.Common.ViewModels.Order.OrderIndexViewModel>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.DateTime.ToLocalTime()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    <a asp-area=""
+                       asp-controller="order"
+                       asp-action="details"
+                       asp-route-id="@item.Id"
+                       class="btn btn-default">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@await Html.PartialAsync(
+        WebConstants.PaginationPartialPath,
+        new PaginationPartialViewModel(
+            (IPaginatedList)Model, this.ViewContext))

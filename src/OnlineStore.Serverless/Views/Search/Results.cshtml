@@ -1,0 +1,56 @@
+﻿@model IEnumerable<OnlineStore.Common.ViewModels.Product.ProductConciseViewModel>
+
+<h3>Search results:</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MainPictureUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@product.MainPictureUrl" alt="@product.Name" class="img-icon" />
+                </td>
+                <td>
+                    <a asp-area="" asp-controller="product" asp-action="details" asp-route-id="@product.Id">
+                        @Html.DisplayFor(modelItem => product.Name)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => product.ShortDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => product.Price)
+                </td>
+                <td>
+                    <a asp-area=""
+                       asp-controller="product"
+                       asp-action="details"
+                       asp-route-id="@product.Id"
+                       class="btn btn-default">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@await Html.PartialAsync(
+        WebConstants.PaginationPartialPath,
+        new PaginationPartialViewModel(
+            (IPaginatedList)Model, this.ViewContext))
