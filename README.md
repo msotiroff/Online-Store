@@ -1,7 +1,7 @@
 # OnlineStore
 ##### Serverless application, made using AWS Lambda Function based on  Asp.Net Core 2.1 
 ##### Used database: DynamoDB.
-##### Public URL: [Online Store](https://jbgux42ye0.execute-api.eu-central-1.amazonaws.com/Prod "Online Store")
+##### Public URL: [Online Store](https://79lkvbfesg.execute-api.eu-central-1.amazonaws.com/Prod/ "Online Store")
 
 Features:
 - Guest users can view categories and products in them.
