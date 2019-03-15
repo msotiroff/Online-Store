@@ -368,6 +368,7 @@ namespace MSToolKit.Core.Extensions
                 .GetTypes()
                 .Where(t => t.IsClass
                     && !t.IsAbstract
+                    && !t.IsGenericType
                     && t.GetInterfaces()
                         .Any(i => i.Name == $"I{t.Name}"))
                 .Select(t => new
