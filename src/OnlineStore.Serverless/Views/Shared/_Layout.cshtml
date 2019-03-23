@@ -33,11 +33,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="home" asp-action="index" class="navbar-brand">Online Store</a>
+                <a asp-area="" asp-controller="home" asp-action="index" class="navbar-brand">Home</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="home" asp-action="index">Home</a></li>
+                    <li><a asp-area="" asp-controller="home" asp-action="privacy" class="navbar-brand">Privacy policy</a></li>
                 </ul>
                 <partial name="_LoginPartial" />
             </div>
@@ -52,6 +52,9 @@
         <hr />
         <footer>
             <p>&copy; 2018 - Online Store</p>
+            <b class="text-danger">
+                Attention. This project is designed for learning and not for commercial purposes. The products in this site are exemplary and not for sale.
+            </b>
         </footer>
     </div>
 
